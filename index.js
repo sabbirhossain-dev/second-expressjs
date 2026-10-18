@@ -1,8 +1,10 @@
 import express from "express";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-import cors from "cors";
+app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Hello from home");
@@ -10,7 +12,6 @@ app.get("/", (req, res) => {
 
 //users
 
-app.use(cors());
 const users = [
   {
     id: 1,
@@ -39,14 +40,28 @@ const users = [
   },
 ];
 
+// Get all users
 app.get("/users", (req, res) => {
-  res.send(users);
+  res.status(200).json(users);
 });
 
-app.post("/user", (req, res) => {
-  res.send("Successfully!");
+// Add a new user
+app.post("/users", (req, res) => {
+  const newUser = {
+    id: users.length + 1,
+    name: req.body.name,
+    email: req.body.email,
+  };
+
+  users.push(newUser);
+
+  res.status(201).json({
+    message: "User created successfully",
+    user: newUser,
+  });
 });
 
 app.listen(PORT, () => {
   console.log("app is runnig on port 5000");
+  console.log("hello ");
 });
