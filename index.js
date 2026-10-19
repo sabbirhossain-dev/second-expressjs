@@ -61,6 +61,7 @@ app.post("/users", (req, res) => {
   });
 });
 
+//listen port
 app.listen(PORT, () => {
   console.log("app is runnig on port 5000");
   console.log("hello ");
